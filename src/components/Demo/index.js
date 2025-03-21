@@ -1,1 +1,3 @@
-export default () => <span>demo</span>
+import React from 'react'
+
+export default () => <>demo</>
