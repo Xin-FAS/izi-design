@@ -14,3 +14,4 @@ typings/
 *.tgz
 .yarn-integrity
 .idea
+*.yaml
