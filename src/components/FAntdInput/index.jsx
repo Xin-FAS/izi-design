@@ -19,24 +19,24 @@ const getBaseArgs = ({
 })
 
 // 基础Input
-const BaseInput = forwardRef((props, ref) => <Input
+const FAntdInput = forwardRef((props, ref) => <Input
     placeholder={'请输入'}
     {...getBaseArgs(props, ref)}
 />)
 
 // 先将其他子组件也带过来
 const { $$typeof, render, ...components } = Input
-for (const name in components) BaseInput[name] = Input[name]
+for (const name in components) FAntdInput[name] = Input[name]
 
 // 重写Password
-BaseInput.Password = forwardRef((props, ref) =>
+FAntdInput.Password = forwardRef((props, ref) =>
     <Input.Password
         placeholder={'请输入密码'}
         {...getBaseArgs(props, ref)}
     />
 )
 // 重写Search
-BaseInput.Search = forwardRef((props, ref) => {
+FAntdInput.Search = forwardRef((props, ref) => {
     // 搜索
     const toSearch = (...args) => {
         props.onSearch && props.onSearch(...args)
@@ -59,7 +59,7 @@ BaseInput.Search = forwardRef((props, ref) => {
     />
 })
 // 重写TextArea
-BaseInput.TextArea = forwardRef((props, ref) =>
+FAntdInput.TextArea = forwardRef((props, ref) =>
     <Input.TextArea
         placeholder={'请输入'}
         showCount
@@ -69,7 +69,7 @@ BaseInput.TextArea = forwardRef((props, ref) =>
     />
 )
 // 重写OTP
-BaseInput.OTP = forwardRef(({
+FAntdInput.OTP = forwardRef(({
     state,
     onInput,
     ...args
@@ -84,4 +84,4 @@ BaseInput.OTP = forwardRef(({
     />
 )
 
-export default BaseInput
+export default FAntdInput
