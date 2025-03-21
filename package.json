@@ -1,13 +1,13 @@
 {
   "name": "izid",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "izi-design，（简单的）react组件库",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "unpkg": "dist/index.umd.js",
   "source": "src/index.js",
   "scripts": {
-    "build": "microbundle --jsx React.createElement --jsxFragment React.Fragment",
+    "build": "microbundle --jsxImportSource react",
     "dev": "microbundle watch --jsx React.createElement --jsxFragment React.Fragment",
     "push": "npm version patch;npm run build;npm publish",
     "push-minor": "npm version minor;npm run build;npm publish",
