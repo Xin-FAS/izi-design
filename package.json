@@ -13,11 +13,14 @@
     "version-minor": "npm version minor",
     "version-major": "npm version major",
     "build": "microbundle --jsxImportSource react",
+    "docs:build": "dumi build",
     "push": "npm publish",
     "watch:build": "microbundle watch --jsx React.createElement --jsxFragment React.Fragment"
   },
   "files": [
     "dist/",
+    "docs/",
+    "nav/",
     "README.md"
   ],
   "keywords": [
