@@ -240,7 +240,8 @@ export default () => {
 | state | string | false | useState创建的state，用于双向绑定 |     |
 
 ### FAntdInput.Search
-配置项继承[Antd Input.Search](https://ant-design.antgroup.com/components/input-cn#inputsearch)
+
+组件内部依据`lodash-es`依赖，请先使用`npm install lodash-es`下载所需依赖 ，配置项继承[Antd Input.Search](https://ant-design.antgroup.com/components/input-cn#inputsearch)
 
 #### Props
 
@@ -253,6 +254,7 @@ export default () => {
 | throttleTrailing | boolean  | false | 节流搜索时间结束后是否再次触发搜索       | false |
 
 ### FAntdInput.Number
+
 配置项继承[Antd InputNumber](https://ant-design.antgroup.com/components/input-number-cn#api)
 
 #### Props
