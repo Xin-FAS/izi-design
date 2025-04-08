@@ -19,7 +19,7 @@ title: 开发文档
 3. 创建文档，在`docs`目录下创建`组件名.md`，将`docs/Demo.md`复制过去修改即可（可参考`docs/FAntdInput.md`）
 
 > 注意事项：
-> * 在markdown文档中使用 `import { 组件名 } from 'izid'`为本地组件，如果需要测试线上组件，则应该使用`import { 组件名 } from '@izid'`
+> * 在markdown文档中使用 `import { 组件名 } from 'izid'`为本地组件
 > * 使用线上组件时，记得使用`pnpm i`更新本地依赖哦
 > * 开发工具函数也是一样的，可参考`src/utils/DemoLog`
 

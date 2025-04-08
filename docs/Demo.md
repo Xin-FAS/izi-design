@@ -8,18 +8,6 @@ title: Demo 示例组件
 
 ### 简单使用
 
-使用线上版本测试
-
-```jsx
-import { Demo } from '@izid'
-
-export default () => {
-    return <Demo />
-}
-```
-
-使用本地版本测试
-
 ```jsx
 import { Demo } from 'izid'
 
