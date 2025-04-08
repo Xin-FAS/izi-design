@@ -1,1 +1,1 @@
-export default () => <>demo</>
+export default () => <>This is a demo component.</>

@@ -1,1 +1,1 @@
-export { default as DemoLog } from './Demo'
+export { default as DemoLog } from './DemoLog'

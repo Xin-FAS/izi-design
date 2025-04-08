@@ -3,4 +3,10 @@ node_modules
 .idea/
 .vscode/
 *.yaml
-
+/docs-dist
+.husky/
+.dumi/tmp
+.dumi/tmp-test
+.dumi/tmp-production
+.DS_Store
+docs-dist

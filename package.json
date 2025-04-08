@@ -7,29 +7,46 @@
   "unpkg": "dist/index.umd.js",
   "source": "src/index.js",
   "scripts": {
+    "start": "npm run dev",
+    "dev": "dumi dev",
+    "version-patch": "npm version patch",
+    "version-minor": "npm version minor",
+    "version-major": "npm version major",
     "build": "microbundle --jsxImportSource react",
-    "dev": "microbundle watch --jsx React.createElement --jsxFragment React.Fragment",
-    "push": "npm version patch;npm run build;npm publish",
-    "push-minor": "npm version minor;npm run build;npm publish",
-    "push-major": "npm version major;npm run build;npm publish"
+    "push": "npm publish",
+    "watch:build": "microbundle watch --jsx React.createElement --jsxFragment React.Fragment"
   },
   "files": [
     "dist/",
     "README.md"
   ],
   "keywords": [
-    "react",
+    "izi",
     "component",
-    "library"
+    "components",
+    "design",
+    "framework",
+    "frontend",
+    "react",
+    "react-component"
   ],
   "author": "FAS",
   "license": "ISC",
+  "peerDependencies": {
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
   "dependencies": {
-    "lodash-es": "^4.17.21",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+
   },
   "devDependencies": {
-    "microbundle": "^0.15.1"
+    "dumi": "^2.4.13",
+    "dumi-theme-antd-style": "^0.31.1",
+    "@izid": "npm:izid@latest",
+    "lodash-es": "^4.17.21",
+    "microbundle": "^0.15.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "antd": "^5.24.6"
   }
 }
