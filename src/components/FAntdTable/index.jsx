@@ -1,14 +1,14 @@
 import { Table } from 'antd';
-import { useEffect, useState, forwardRef, useImperativeHandle, useRef } from 'react';
+import { useEffect, useState, forwardRef, useImperativeHandle, useRef, useCallback } from 'react';
 
-export default forwardRef(
+const FAntdTable = forwardRef(
     (
         {
             api,
             apiData,
-            filter,
+            filter = data => true,
             requestValid = requestArgs => true,
-            renderPageConfig = (current, pageSize) => ({ pageSearch: { limit: pageSize, page: current } }),
+            renderPageConfig = (current, pageSize) => ({ current, pageSize }),
             successValid = data => data.code === '0',
             mapperOptions = {
                 total: 'count',
@@ -28,7 +28,7 @@ export default forwardRef(
         const [loading, setLoading] = useState(false);
         const [tableData, setTableData] = useState([]);
 
-        const getTableData = ({
+        const getTableData = useCallback(({
             current,
             pageSize,
             data = apiData,
@@ -54,7 +54,7 @@ export default forwardRef(
                 ) {
                     let tableData = data[mapperOptions.data]
                     // 使用filter过滤数据
-                    if (filter && tableData && tableData.length) tableData = tableData.filter(filter);
+                    if (tableData && tableData.length) tableData = tableData.filter(filter);
                     // 设置表格总条数
                     setTotal(res[mapperOptions.total]);
                     // 设置表格数据
@@ -66,20 +66,20 @@ export default forwardRef(
             }).finally(() => {
                 setLoading(false)
             });
-        };
+        }, [apiData, api, getApiData, requestValid, renderPageConfig, successValid, mapperOptions, filter])
         // 还原页数查询
-        const initPageSearch = otherData => getTableData({
+        const initPageSearch = useCallback(otherData => getTableData({
             current: initCurrent,
             pageSize,
             otherData
-        })
+        }), [initCurrent, pageSize])
         // 重置查询（还原页数和条数和空查询）
-        const resetPageSearch = otherData => getTableData({
+        const resetPageSearch = useCallback(otherData => getTableData({
             current: initCurrent,
             pageSize: initPageSize,
             data: {},
             otherData,
-        })
+        }), [initCurrent, initPageSize])
 
         const tableRef = useRef()
         useImperativeHandle(
@@ -125,3 +125,4 @@ export default forwardRef(
         />
     },
 );
+export default FAntdTable

@@ -95,7 +95,7 @@ export default () => {
         }
     ]
 
-    // 获取表格数据
+    // 操作表格数据
     const handleTableRef = fnName => {
         tableRef.current?.[fnName]()
     }
@@ -122,19 +122,19 @@ export default () => {
 
 ### Props
 
-| 属性名               | 类型                            | 是否必填 | 说明                                                                                           | 默认值                                                                         |
-|-------------------|-------------------------------|------|----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
-| api               | apiData => Promise            | 是    | 获取表格数据的接口函数                                                                                  |                                                                             |
-| apiData           | object                        | 否    | api函数请求参数                                                                                    |                                                                             |
-| filter            | itemData => boolean           | 否    | 过滤表格数据                                                                                       |                                                                             |
-| getApiData        | response => object            | 否    | 返回后端接口响应数据，而不是浏览器response（如果接口返回是response，建议去调整响应拦截器，无法调整拦截器可以改为`response => response.data`） | response => response                                                        |
-| requestValid      | requestArgs => boolean        | 否    | 是否进行请求，可用于在不满足请求条件时拦截请求，`requestArgs`接口请求参数                                                  | requestArgs => true                                                         |
-| requestPageConfig | (current, pageSize) => object | 否    | 返回传递接口的分页配置，默认`pageSearch: { limit, page }`参数，current当前页，pageSize当前条数                        | (current, pageSize) => ({ pageSearch: { limit: pageSize, page: current } }) |
-| successValid      | response => boolean           | 否    | 判断请求是否成功，默认判断响应数据中的`code`为字符串`0`                                                             | data => data.code === '0'                                                   |
-| mapperOptions     | object                        | 否    | 表格数据映射字段名称                                                                                   | { total: 'count', data: 'data' }                                            |
-| initPageSize      | number                        | 否    | 初始表格数据条数                                                                                     | 10                                                                          |
-| initCurrent       | number                        | 否    | 初始表格数据页数                                                                                     | 1                                                                           |
-| autoInit          | boolean                       | 否    | 是否自动获取表格数据                                                                                   | true                                                                        |
+| 属性名              | 类型                            | 是否必填 | 说明                                                                                           | 默认值                                            |
+|------------------|-------------------------------|------|----------------------------------------------------------------------------------------------|------------------------------------------------|
+| api              | apiData => Promise            | 是    | 获取表格数据的接口函数                                                                                  |                                                |
+| apiData          | object                        | 否    | api函数请求参数，默认为`apiData` + `renderPageConfig`                                                  |                                                |
+| filter           | itemData => boolean           | 否    | 过滤表格数据，同`Array.filter`                                                                       | data => true                                   |
+| getApiData       | response => object            | 否    | 返回后端接口响应数据，而不是浏览器response（如果接口返回是response，建议去调整响应拦截器，无法调整拦截器可以改为`response => response.data`） | response => response                           |
+| requestValid     | requestArgs => boolean        | 否    | 是否进行请求，可用于在不满足请求条件时拦截请求，`requestArgs`接口请求参数                                                  | requestArgs => true                            |
+| renderPageConfig | (current, pageSize) => object | 否    | 返回传递接口的分页配置，默认`pageSearch: { limit, page }`参数，current当前页，pageSize当前条数                        | (current, pageSize) => ({ current, pageSize }) |
+| successValid     | response => boolean           | 否    | 判断请求是否成功，默认判断响应数据中的`code`为字符串`0`                                                             | data => data.code === '0'                      |
+| mapperOptions    | object                        | 否    | 表格数据映射字段名称                                                                                   | { total: 'count', data: 'data' }               |
+| initPageSize     | number                        | 否    | 初始表格数据条数                                                                                     | 10                                             |
+| initCurrent      | number                        | 否    | 初始表格数据页数                                                                                     | 1                                              |
+| autoInit         | boolean                       | 否    | 是否自动获取表格数据                                                                                   | true                                           |
 
 ### Ref
 
