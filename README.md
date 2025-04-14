@@ -1,5 +1,5 @@
 # izi-design
-
+English | [中文文档](https://github.com/Xin-FAS/izi-design/blob/main/README-ZH.md)
 ## ✨ Features
 * 🌈 Enterprise-class UI designed for web applications.
 * 📦 A set of high-quality React components out of the box.
