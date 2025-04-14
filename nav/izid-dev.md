@@ -20,7 +20,6 @@ title: 开发文档
 
 > 注意事项：
 > * 在markdown文档中使用 `import { 组件名 } from 'izid'`为本地组件
-> * 使用线上组件时，记得使用`pnpm i`更新本地依赖哦
 > * 开发工具函数也是一样的，可参考`src/utils/DemoLog`
 
 ### 😊提交并发布
