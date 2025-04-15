@@ -1,14 +1,17 @@
 import { Table } from 'antd';
-import { useEffect, useState, forwardRef, useImperativeHandle, useRef, useCallback } from 'react';
+import { useEffect, useState, forwardRef, useImperativeHandle, useRef, useCallback, useMemo } from 'react';
 
 const FAntdTable = forwardRef(
     (
         {
             api,
             apiData,
+            checkboxState,
+            radioState,
             filter = data => true,
+            getApiData = response => response,
             requestValid = requestArgs => true,
-            renderPageConfig = (current, pageSize) => ({ current, pageSize }),
+            requestPageConfig = (current, pageSize) => ({ current, pageSize }),
             successValid = data => data.code === '0',
             mapperOptions = {
                 total: 'count',
@@ -17,26 +20,26 @@ const FAntdTable = forwardRef(
             initPageSize = 10,
             initCurrent = 1,
             autoInit = true,
-            getApiData = response => response,
+            rowKey = data => data,
             ...args
         },
         ref,
     ) => {
-        const [pageSize, setPageSize] = useState(initPageSize);
-        const [current, setCurrent] = useState(initCurrent);
+        const [configPageSize, setConfigPageSize] = useState(initPageSize);
+        const [configCurrent, setConfigCurrent] = useState(initCurrent);
         const [total, setTotal] = useState(0);
         const [loading, setLoading] = useState(false);
         const [tableData, setTableData] = useState([]);
 
         const getTableData = useCallback(({
-            current,
-            pageSize,
+            current = configCurrent,
+            pageSize = configPageSize,
             data = apiData,
             otherData = {}
         } = {}) => {
             const requestArgs = Object.assign(
                 {},
-                renderPageConfig(current, pageSize),
+                requestPageConfig(current, pageSize),
                 data,
                 otherData
             )
@@ -52,34 +55,35 @@ const FAntdTable = forwardRef(
                     _current === current &&
                     _pageSize === pageSize
                 ) {
-                    let tableData = data[mapperOptions.data]
                     // 使用filter过滤数据
-                    if (tableData && tableData.length) tableData = tableData.filter(filter);
+                    const tableData = (data[mapperOptions.data] ?? []).filter(filter)
                     // 设置表格总条数
                     setTotal(res[mapperOptions.total]);
                     // 设置表格数据
-                    setTableData(tableData ?? []);
+                    setTableData(tableData);
                     // 更新页码
-                    setCurrent(current);
-                    setPageSize(pageSize);
+                    setConfigCurrent(current);
+                    setConfigPageSize(pageSize);
                 }
             }).finally(() => {
                 setLoading(false)
             });
-        }, [apiData, api, getApiData, requestValid, renderPageConfig, successValid, mapperOptions, filter])
+        }, [apiData, api, getApiData, requestValid, requestPageConfig, successValid, mapperOptions, filter, args.rowKey])
         // 还原页数查询
-        const initPageSearch = useCallback(otherData => getTableData({
+        const init = useCallback(otherData => getTableData({
             current: initCurrent,
-            pageSize,
+            pageSize: configPageSize,
             otherData
-        }), [initCurrent, pageSize])
+        }), [initCurrent, configPageSize])
         // 重置查询（还原页数和条数和空查询）
-        const resetPageSearch = useCallback(otherData => getTableData({
+        const reset = useCallback(otherData => getTableData({
             current: initCurrent,
             pageSize: initPageSize,
             data: {},
             otherData,
         }), [initCurrent, initPageSize])
+        // 刷新当前页数查询
+        const reload = useCallback(otherData => getTableData({ otherData }), [configCurrent, configPageSize, apiData])
 
         const tableRef = useRef()
         useImperativeHandle(
@@ -87,14 +91,30 @@ const FAntdTable = forwardRef(
             () => {
                 return {
                     getTableData,
-                    initPageSearch,
-                    resetPageSearch,
+                    init,
+                    reload,
+                    reset,
                     nativeElement: tableRef.current?.nativeElement,
                     scrollTo: tableRef.current?.scrollTo,
+                    getInfo: () => ([tableData, configCurrent, configPageSize])
                 };
             },
-            [current, pageSize, apiData, tableRef],
+            [configCurrent, configPageSize, apiData, tableRef, tableData, configCurrent, configPageSize],
         );
+
+        const rowSelection = useMemo(() => {
+            if (checkboxState || radioState) {
+                const state = checkboxState ?? radioState
+                return {
+                    type: checkboxState ? 'checkbox' : 'radio',
+                    onChange (...args) {
+                        state[1](args[0])
+                        args?.rowSelection?.onChange(...args)
+                    }
+                }
+            }
+        }, [checkboxState, radioState, args.rowSelection, args.rowKey]);
+
         useEffect(() => {
             autoInit && getTableData();
         }, []);
@@ -103,23 +123,22 @@ const FAntdTable = forwardRef(
             loading={loading}
             dataSource={tableData}
             {...args}
-            columns={(args.columns ?? []).map(r => {
-                if (r.key === undefined) r.key = r.dataIndex
-                return r
-            })}
+            rowSelection={rowSelection}
+            rowKey={rowKey}
+            columns={args.columns?.map(r => (r.key = r.key ?? r.dataIndex, r))}
             pagination={{
                 showSizeChanger: true,
-                current,
-                pageSize,
+                current: configCurrent,
+                pageSize: configPageSize,
                 total,
                 pageSizeOptions: [5, 10, 20, 50],
-                ...(args.pagination ?? {}),
-                onChange: (page, limit) => {
+                ...args?.pagination,
+                onChange (current, pageSize) {
                     getTableData({
-                        page,
-                        limit,
+                        current,
+                        pageSize,
                     })
-                    args?.pagination?.onChange && args.pagination.onChange(page, limit)
+                    args?.pagination?.onChange(current, pageSize)
                 },
             }}
         />
