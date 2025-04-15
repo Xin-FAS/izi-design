@@ -1,5 +1,5 @@
 # izi-design
-
+English | [中文文档](https://github.com/Xin-FAS/izi-design/blob/main/README-ZH.md)
 ## ✨ Features
 * 🌈 Enterprise-class UI designed for web applications.
 * 📦 A set of high-quality React components out of the box.
@@ -31,7 +31,7 @@ yarn add izid
 ## 🔗 Links
 * [Home page](https://xin-fas.github.io/izi-design-doc/)
 * [Xin'Blog](https://xin-fas.github.io)
-* [Elum'Blog](https://blog.kinoteika.com)
+* [Kinoteika'Blog](https://blog.kinoteika.com)
 * [Ant Design Web3](https://web3.ant.design/)
 * [Ant Design](https://ant-design.antgroup.com/index-cn)
 
