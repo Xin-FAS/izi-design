@@ -12,7 +12,8 @@ const getBaseArgs = ({
     allowClear: true,
     value: state?.[0],
     onChange: (event, ...args) => {
-        state?.[1](event.target.value?.trim(), ...args);
+        event.target.value = event.target.value?.trim();
+        state?.[1](event.target.value, ...args);
         onChange && onChange(event, ...args);
     },
     ...args,

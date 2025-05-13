@@ -18,7 +18,7 @@ export default () => {
     const inputRef = useRef()
 
     useEffect(() => {
-        inputRef.current?.focus()
+        setTimeout(inputRef.current?.focus, 1000)
     }, []);
 
     const setHello = () => {
