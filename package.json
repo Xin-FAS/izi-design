@@ -1,6 +1,6 @@
 {
   "name": "izid",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "izi-design，（简单的）react组件库",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
