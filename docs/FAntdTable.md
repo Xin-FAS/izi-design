@@ -4,13 +4,12 @@ title: FAntdTable 表格
 
 ## FAntdTable
 
-`FAntdTable`是对Antd Table的封装，只需要有api和columns属性就能快速渲染出一个分页表格，具体改动如下：
+`FAntdTable`是对Antd Table的封装，只需要有api和columns属性就能快速渲染出一个分页表格，对Antd Table原生改动如下：
 
-* 内置pagination配置项，初始包含5, 10, 20, 50分页数
-* columns不存在key时，如果dataIndex有值，则自动将dataIndex当作key
-* 自动使用`code`判断接口状态，成功默认值为字符串`0`，可使用`successValid`自定成功条件
-* 自动使用`count`当总数据条数，`data`当分页数据列表，可使用`mapperOptions`配置属性名
-* 默认`api`返回的`promise`值为后端返回数据而不是`Response`对象，如果`api`返回`Response`对象，则可以使用`getApiData`指定为接口数据
+* 内置`api`请求，可使用`ref`控制请求
+* `columns`不存在`key`时，如果`dataIndex`有值，则自动将`dataIndex`当作`key`
+* `checkboxState`和`radioState`能更快的使用多选/单选
+* 有一套默认的字段映射、初始分页配置，见基础使用
 
 ### 基础使用
 
