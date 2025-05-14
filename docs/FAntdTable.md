@@ -15,7 +15,6 @@ title: FAntdTable 表格
 
 ```jsx
 import { FAntdTable } from 'izid'
-import { Button } from 'antd'
 
 // 模拟接口
 const TableDataAPI = ({ current, pageSize }) => new Promise(resolve => {
@@ -69,7 +68,6 @@ export default () => {
 
 ```jsx
 import { FAntdTable } from 'izid'
-import { Button } from 'antd'
 
 // 模拟接口
 const TableDataAPI = ({ current, pageSize }) => new Promise(resolve => {
