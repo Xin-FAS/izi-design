@@ -6,7 +6,7 @@ title: Demo 示例组件
 
 这是一个Demo组件，用来做文档示例
 
-### 简单使用
+### 基础使用
 
 ```jsx
 import { Demo } from 'izid'
