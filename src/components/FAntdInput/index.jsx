@@ -14,7 +14,7 @@ const getBaseArgs = ({
     onChange: (event, ...args) => {
         event.target.value = event.target.value?.trim();
         state?.[1](event.target.value, ...args);
-        onChange && onChange(event, ...args);
+        onChange?.(event, ...args);
     },
     ...args,
 });
@@ -40,7 +40,7 @@ FAntdInput.Password = forwardRef((props, ref) =>
 FAntdInput.Search = forwardRef((props, ref) => {
     // 搜索
     const onSearch = (...args) => {
-        props.onSearch && props.onSearch(...args);
+        props.onSearch?.(...args);
     };
     // 节流搜索
     const throttleSearch = throttle(onSearch, props.throttleDuration ?? 0, { trailing: props.throttleTrailing ?? false });
@@ -49,7 +49,7 @@ FAntdInput.Search = forwardRef((props, ref) => {
     // 输入
     const onInput = event => {
         if (props.autoSearch) debounceSearch(event.target.value);
-        props.onInput && props.onInput(event);
+        props.onInput?.(event);
     };
 
     return <Input.Search
