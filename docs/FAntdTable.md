@@ -21,7 +21,7 @@ const TableDataAPI = ({ current, pageSize }) => new Promise(resolve => {
     setTimeout(() => {
         resolve({
             code: '0',
-            count: 21,
+            total: 21,
             data: Array.from({ length: 21 }, (_, index) => ({
                 name: 'Xin',
                 more: `这是第${index + 1}条数据`
@@ -129,7 +129,7 @@ const TableDataAPI = ({ current, pageSize }) => new Promise(resolve => {
     setTimeout(() => {
         resolve({
             code: '0',
-            count: 21,
+            total: 21,
             data: Array.from({ length: 21 }, (_, index) => ({
                 name: 'Xin',
                 more: `这是第${index + 1}条数据`
@@ -189,7 +189,7 @@ const TableDataAPI = ({ current, pageSize }) => new Promise(resolve => {
     setTimeout(() => {
         resolve({
             code: '0',
-            count: 21,
+            total: 21,
             data: Array.from({ length: 21 }, (_, index) => ({
                 name: 'Xin',
                 more: `这是第${index + 1}条数据`
@@ -239,7 +239,7 @@ const TableDataAPI = ({ current, pageSize }) => new Promise(resolve => {
     setTimeout(() => {
         resolve({
             code: '0',
-            count: 21,
+            total: 21,
             data: Array.from({ length: 21 }, (_, index) => ({
                 name: 'Xin',
                 more: `这是第${index + 1}条数据`
@@ -290,7 +290,7 @@ const TableDataAPI = ({ current, pageSize }) => new Promise(resolve => {
     setTimeout(() => {
         resolve({
             code: '0',
-            count: 21,
+            total: 21,
             data: Array.from({ length: 21 }, (_, index) => ({
                 name: 'Xin',
                 more: `这是第${index + 1}条数据`
@@ -337,7 +337,7 @@ const TableDataAPI = ({ current, pageSize }) => new Promise(resolve => {
     setTimeout(() => {
         resolve({
             code: '0',
-            count: 21,
+            total: 21,
             data: Array.from({ length: 21 }, (_, index) => ({
                 name: 'Xin',
                 more: `这是第${index + 1}条数据`
@@ -383,7 +383,7 @@ const TableDataAPI = ({ current, pageSize }) => new Promise(resolve => {
     setTimeout(() => {
         resolve({
             code: '0',
-            count: 21,
+            total: 21,
             data: Array.from({ length: 21 }, (_, index) => ({
                 name: 'Xin',
                 more: `这是第${index + 1}条数据`
@@ -454,7 +454,7 @@ const TableDataAPI = ({ current, pageSize }) => new Promise(resolve => {
     setTimeout(() => {
         resolve({
             code: '0',
-            count: 21,
+            total: 21,
             data: Array.from({ length: 21 }, (_, index) => ({
                 name: 'Xin',
                 more: `这是第${index + 1}条数据`
@@ -520,7 +520,7 @@ export default () => {
 | requestValid      | requestArgs => boolean        | 否    | 是否进行请求，可用于在不满足请求条件时拦截请求，`requestArgs`接口请求参数                                                  | requestArgs => true                            |
 | requestPageConfig | (current, pageSize) => object | 否    | 返回传递接口的分页配置，默认`pageSearch: { limit, page }`参数，current当前页，pageSize当前条数                        | (current, pageSize) => ({ current, pageSize }) |
 | successValid      | response => boolean           | 否    | 判断请求是否成功，默认判断响应数据中的`code`为字符串`0`                                                             | data => data.code === '0'                      |
-| mapperOptions     | object                        | 否    | 表格数据映射字段名称                                                                                   | { total: 'count', data: 'data' }               |
+| mapperOptions     | object                        | 否    | 表格数据映射字段名称                                                                                   | { total: 'total', data: 'data' }               |
 | initPageSize      | number                        | 否    | 初始表格数据条数                                                                                     | 10                                             |
 | initCurrent       | number                        | 否    | 初始表格数据页数                                                                                     | 1                                              |
 | autoInit          | boolean                       | 否    | 是否自动获取表格数据                                                                                   | true                                           |

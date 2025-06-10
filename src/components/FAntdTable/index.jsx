@@ -14,7 +14,7 @@ const FAntdTable = forwardRef(
             requestPageConfig = (current, pageSize) => ({ current, pageSize }),
             successValid = data => data.code === '0',
             mapperOptions = {
-                total: 'count',
+                total: 'total',
                 data: 'data'
             },
             initPageSize = 10,
@@ -126,7 +126,7 @@ const FAntdTable = forwardRef(
             rowSelection={rowSelection}
             rowKey={rowKey}
             columns={args.columns?.map(r => (r.key = r.key ?? r.dataIndex, r))}
-            pagination={{
+            pagination={args?.pagination === false ? false : {
                 showSizeChanger: true,
                 current: configCurrent,
                 pageSize: configPageSize,
