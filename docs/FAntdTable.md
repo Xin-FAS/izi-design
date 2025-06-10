@@ -412,6 +412,7 @@ export default () => {
 
 
     const [name, setName] = useState()
+    const [value, setValue] = useState()
     // 操作表格数据
     const handleTableRef = fnName => {
         tableRef.current?.[fnName]({
@@ -427,11 +428,15 @@ export default () => {
             <Button onClick={() => handleTableRef('reset')}>重置条数/页数后获取数据</Button>
             <Button onClick={() => handleTableRef('reload')}>刷新当前页数据</Button>
         </Space>
+        <FAntdInput state={[value, setValue]} placeholder={'输入请求参数'} />
         <FAntdInput state={[name, setName]} placeholder={'输入手动请求额外参数'} />
         <p>{JSON.stringify(sendParams)}</p>
         <FAntdTable
             ref={tableRef}
             api={TableDataAPI}
+            apiData={{
+                value
+            }}
             columns={columns}
             requestValid={params => {
                 setSendParams(params)

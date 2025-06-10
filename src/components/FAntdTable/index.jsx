@@ -74,14 +74,14 @@ const FAntdTable = forwardRef(
             current: initCurrent,
             pageSize: configPageSize,
             otherData
-        }), [initCurrent, configPageSize])
+        }), [initCurrent, configPageSize, getTableData])
         // 重置查询（还原页数和条数和空查询）
         const reset = useCallback(otherData => getTableData({
             current: initCurrent,
             pageSize: initPageSize,
             data: {},
             otherData,
-        }), [initCurrent, initPageSize])
+        }), [initCurrent, initPageSize, getTableData])
         // 刷新当前页数查询
         const reload = useCallback(otherData => getTableData({ otherData }), [configCurrent, configPageSize, apiData])
 
@@ -99,7 +99,7 @@ const FAntdTable = forwardRef(
                     getInfo: () => ([tableData, configCurrent, configPageSize])
                 };
             },
-            [configCurrent, configPageSize, apiData, tableRef, tableData, configCurrent, configPageSize],
+            [getTableData, init, reload, reset, tableRef, tableData, configCurrent, configPageSize],
         );
 
         const rowSelection = useMemo(() => {
