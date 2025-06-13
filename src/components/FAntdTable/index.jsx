@@ -20,7 +20,6 @@ const FAntdTable = forwardRef(
             initPageSize = 10,
             initCurrent = 1,
             autoInit = true,
-            rowKey = data => data,
             ...args
         },
         ref,
@@ -68,7 +67,7 @@ const FAntdTable = forwardRef(
             }).finally(() => {
                 setLoading(false)
             });
-        }, [apiData, api, getApiData, requestValid, requestPageConfig, successValid, mapperOptions, filter, args.rowKey])
+        }, [apiData, api, getApiData, requestValid, requestPageConfig, successValid, mapperOptions, filter])
         // 还原页数查询
         const init = useCallback(otherData => getTableData({
             current: initCurrent,
@@ -84,6 +83,28 @@ const FAntdTable = forwardRef(
         }), [initCurrent, initPageSize, getTableData])
         // 刷新当前页数查询
         const reload = useCallback(otherData => getTableData({ otherData }), [configCurrent, configPageSize, apiData])
+        // 获取当前页信息
+        const getInfo = useCallback(() => ({
+                tableData,
+                configCurrent,
+                configPageSize,
+                selected: args?.rowKey ? tableData.filter(r => {
+                    if (radioState) return r[args.rowKey] === radioState[0]
+                    if (checkboxState) {
+                        const rowKeys = checkboxState[0]
+                        return rowKeys.includes(r[args.rowKey])
+                    }
+                }): undefined
+            }),
+            [
+                tableData,
+                configCurrent,
+                configPageSize,
+                checkboxState,
+                radioState
+            ])
+        // 获取当前选中的全部数据
+        const getSelected = useCallback(() => getInfo().selected, [getInfo])
 
         const tableRef = useRef()
         useImperativeHandle(
@@ -94,27 +115,33 @@ const FAntdTable = forwardRef(
                     init,
                     reload,
                     reset,
+                    getInfo,
+                    getSelected,
                     nativeElement: tableRef.current?.nativeElement,
                     scrollTo: tableRef.current?.scrollTo,
-                    getInfo: () => ([tableData, configCurrent, configPageSize])
                 };
             },
-            [getTableData, init, reload, reset, tableRef, tableData, configCurrent, configPageSize],
+            [getTableData, init, reload, reset, tableRef, getInfo],
         );
-
+        // 单选/多选
         const rowSelection = useMemo(() => {
-            if (checkboxState || radioState) {
-                const state = checkboxState ?? radioState
-                return {
-                    type: checkboxState ? 'checkbox' : 'radio',
-                    onChange (...args) {
-                        state[1](args[0])
-                        args?.rowSelection?.onChange(...args)
-                    }
+            if (checkboxState) return {
+                type: 'checkbox',
+                selectedRowKeys: checkboxState[0],
+                onChange (...args) {
+                    checkboxState[1](args[0])
+                    args?.rowSelection?.onChange(...args)
                 }
             }
-        }, [checkboxState, radioState, args.rowSelection, args.rowKey]);
-
+            if (radioState) return {
+                type: 'radio',
+                selectedRowKeys: [radioState[0]],
+                onChange (...args) {
+                    radioState[1](args[0][0])
+                    args?.rowSelection?.onChange(...args)
+                }
+            }
+        }, [checkboxState, radioState, args]);
         useEffect(() => {
             autoInit && getTableData();
         }, []);
@@ -124,7 +151,6 @@ const FAntdTable = forwardRef(
             dataSource={tableData}
             {...args}
             rowSelection={rowSelection}
-            rowKey={rowKey}
             columns={args.columns?.map(r => (r.key = r.key ?? r.dataIndex, r))}
             pagination={args?.pagination === false ? false : {
                 showSizeChanger: true,
@@ -139,6 +165,9 @@ const FAntdTable = forwardRef(
                         pageSize,
                     })
                     args?.pagination?.onChange(current, pageSize)
+                    // 清空选中
+                    if (radioState) radioState[1](undefined)
+                    if (checkboxState) checkboxState[1]([])
                 },
             }}
         />

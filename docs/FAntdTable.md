@@ -179,10 +179,12 @@ export default () => {
 
 ### 多选快速绑定
 
+绑定`checkboxState`和`rowKey`即可，想要获取选中的全部数据可以使用`ref`中的`getSelected`方法
+
 ```jsx
 import { FAntdTable } from 'izid'
-import { useState } from 'react'
-import { Radio } from 'antd'
+import { useState, useRef } from 'react'
+import { Radio, Button } from 'antd'
 
 // 模拟接口
 const TableDataAPI = ({ current, pageSize }) => new Promise(resolve => {
@@ -191,6 +193,7 @@ const TableDataAPI = ({ current, pageSize }) => new Promise(resolve => {
             code: '0',
             total: 21,
             data: Array.from({ length: 21 }, (_, index) => ({
+                id: index,
                 name: 'Xin',
                 more: `这是第${index + 1}条数据`
             })).slice((current - 1) * pageSize, current * pageSize)
@@ -216,23 +219,33 @@ export default () => {
     ]
 
     const [selectedRows, setSelectedRows] = useState([])
+    const [selectedData, setSelectedData] = useState([])
+    const tableRef = useRef()
+    const getTableSelected = () => setSelectedData(tableRef.current?.getSelected())
+
     return <>
         {JSON.stringify(selectedRows)}
-        <FAntdTable
-            checkboxState={[selectedRows, setSelectedRows]}
-            api={TableDataAPI}
-            columns={columns}
-        />
+            <Button onClick={getTableSelected}>获取选中数据</Button>
+            {JSON.stringify(selectedData)}
+            <FAntdTable
+                ref={tableRef}
+                checkboxState={[selectedRows, setSelectedRows]}
+                rowKey={'id'}
+                api={TableDataAPI}
+                columns={columns}
+            />
     </>
 }
 ```
 
 ### 单选快速绑定
 
+与多选类似，绑定`radioState`以快速实现单选，绑定值为`rowKey`的值，并不是一个数组
+
 ```jsx
 import { FAntdTable } from 'izid'
 import { useState } from 'react'
-import { Radio } from 'antd'
+import { Radio, Button } from 'antd'
 
 // 模拟接口
 const TableDataAPI = ({ current, pageSize }) => new Promise(resolve => {
@@ -241,6 +254,7 @@ const TableDataAPI = ({ current, pageSize }) => new Promise(resolve => {
             code: '0',
             total: 21,
             data: Array.from({ length: 21 }, (_, index) => ({
+                id: index,
                 name: 'Xin',
                 more: `这是第${index + 1}条数据`
             })).slice((current - 1) * pageSize, current * pageSize)
@@ -267,9 +281,11 @@ export default () => {
 
     const [selectedRows, setSelectedRows] = useState({})
     return <>
+        <Button onClick={() => setSelectedRows(3)}>选中第四条数据</Button>
         {JSON.stringify(selectedRows)}
         <FAntdTable
             radioState={[selectedRows, setSelectedRows]}
+            rowKey={'id'}
             api={TableDataAPI}
             columns={columns}
         />
@@ -372,6 +388,8 @@ export default () => {
 ```
 
 ### 请求添加额外参数
+
+在`ref`对象中的各个刷新方法上传递一个对象即可，会被当作额外的临时查询参数
 
 ```jsx
 import { FAntdTable, FAntdInput } from 'izid'
@@ -523,7 +541,7 @@ export default () => {
 | filter            | itemData => boolean           | 否    | 过滤表格数据，同`Array.filter`                                                                       | data => true                                   |
 | getApiData        | response => object            | 否    | 返回后端接口响应数据，而不是浏览器response（如果接口返回是response，建议去调整响应拦截器，无法调整拦截器可以改为`response => response.data`） | response => response                           |
 | requestValid      | requestArgs => boolean        | 否    | 是否进行请求，可用于在不满足请求条件时拦截请求，`requestArgs`接口请求参数                                                  | requestArgs => true                            |
-| requestPageConfig | (current, pageSize) => object | 否    | 返回传递接口的分页配置，默认`pageSearch: { limit, page }`参数，current当前页，pageSize当前条数                        | (current, pageSize) => ({ current, pageSize }) |
+| requestPageConfig | (current, pageSize) => object | 否    | 返回传递接口的分页配置，默认`current, pageSize`参数，current当前页，pageSize当前条数                                  | (current, pageSize) => ({ current, pageSize }) |
 | successValid      | response => boolean           | 否    | 判断请求是否成功，默认判断响应数据中的`code`为字符串`0`                                                             | data => data.code === '0'                      |
 | mapperOptions     | object                        | 否    | 表格数据映射字段名称                                                                                   | { total: 'total', data: 'data' }               |
 | initPageSize      | number                        | 否    | 初始表格数据条数                                                                                     | 10                                             |
@@ -539,3 +557,4 @@ export default () => {
 | reset        | 使用初始条数、初始页数、空查询条件获取数据，可传入一个对象当作查询条件，一般用于重置                      | `otherData => Promise`                             |
 | reload       | 刷新当前页面数据，可传入一个对象当作查询条件                                          | `otherData => Promise`                             |
 | getInfo      | 获取当前表格请求数据                                                      | `() => ({ current, pageSize, data })`              |
+| getSelected  | 获取当前表格选中数据                                                      | `() => array\|string\|number `                     |
