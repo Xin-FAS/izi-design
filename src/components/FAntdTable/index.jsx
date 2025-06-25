@@ -143,8 +143,11 @@ const FAntdTable = forwardRef(
             }
         }, [checkboxState, radioState, args]);
         useEffect(() => {
-            autoInit && getTableData();
+            if (autoInit && !args?.dataSource) getTableData()
         }, []);
+        useEffect(() => {
+            if (args?.dataSource) setTableData(args.dataSource)
+        }, [args?.dataSource]);
         return <Table
             ref={tableRef}
             loading={loading}
