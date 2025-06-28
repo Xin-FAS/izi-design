@@ -36,6 +36,9 @@ const FAntdTable = forwardRef(
             data = apiData,
             otherData = {}
         } = {}) => {
+            // 使用静态数据不需要调用获取接口
+            const isStaticData = !api && args?.dataSource
+            if (isStaticData) return Promise.resolve()
             const requestArgs = Object.assign(
                 {},
                 requestPageConfig(current, pageSize),
@@ -67,7 +70,7 @@ const FAntdTable = forwardRef(
             }).finally(() => {
                 setLoading(false)
             });
-        }, [apiData, api, getApiData, requestValid, requestPageConfig, successValid, mapperOptions, filter])
+        }, [apiData, api, getApiData, requestValid, requestPageConfig, successValid, mapperOptions, filter, args?.dataSource])
         // 还原页数查询
         const init = useCallback(otherData => getTableData({
             current: initCurrent,
@@ -82,7 +85,7 @@ const FAntdTable = forwardRef(
             otherData,
         }), [initCurrent, initPageSize, getTableData])
         // 刷新当前页数查询
-        const reload = useCallback(otherData => getTableData({ otherData }), [configCurrent, configPageSize, apiData])
+        const reload = useCallback(otherData => getTableData({ otherData }), [getTableData])
         // 获取当前页信息
         const getInfo = useCallback(() => ({
                 tableData,
