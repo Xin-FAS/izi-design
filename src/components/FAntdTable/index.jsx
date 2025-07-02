@@ -128,23 +128,26 @@ const FAntdTable = forwardRef(
         );
         // 单选/多选
         const rowSelection = useMemo(() => {
+            const baseRowSelection = args?.rowSelection ?? {}
             if (checkboxState) return {
                 type: 'checkbox',
                 selectedRowKeys: checkboxState[0],
-                onChange (...args) {
-                    checkboxState[1](args[0])
-                    args?.rowSelection?.onChange(...args)
+                ...baseRowSelection,
+                onChange (...changeArgs) {
+                    checkboxState[1](changeArgs[0])
+                    args?.rowSelection?.onChange(...changeArgs)
                 }
             }
             if (radioState) return {
                 type: 'radio',
                 selectedRowKeys: [radioState[0]],
-                onChange (...args) {
-                    radioState[1](args[0][0])
-                    args?.rowSelection?.onChange(...args)
+                ...baseRowSelection,
+                onChange (...changeArgs) {
+                    radioState[1](changeArgs[0][0])
+                    args?.rowSelection?.onChange(...changeArgs)
                 }
             }
-        }, [checkboxState, radioState, args]);
+        }, [checkboxState, radioState, args?.rowSelection]);
         useEffect(() => {
             if (autoInit && !args?.dataSource) getTableData()
         }, []);
