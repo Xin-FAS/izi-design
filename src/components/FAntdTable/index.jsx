@@ -20,6 +20,10 @@ const FAntdTable = forwardRef(
             initPageSize = 10,
             initCurrent = 1,
             autoInit = true,
+            rowSelection: baseRowSelection = {},
+            pagination: basePagination = {},
+            columns: baseColumns = [],
+            dataSource: baseDataSource = [],
             ...args
         },
         ref,
@@ -37,7 +41,7 @@ const FAntdTable = forwardRef(
             otherData = {}
         } = {}) => {
             // 使用静态数据不需要调用获取接口
-            const isStaticData = !api && args?.dataSource
+            const isStaticData = !api && baseDataSource
             if (isStaticData) return Promise.resolve()
             const requestArgs = Object.assign(
                 {},
@@ -70,7 +74,7 @@ const FAntdTable = forwardRef(
             }).finally(() => {
                 setLoading(false)
             });
-        }, [apiData, api, getApiData, requestValid, requestPageConfig, successValid, mapperOptions, filter, args?.dataSource])
+        }, [apiData, api, getApiData, requestValid, requestPageConfig, successValid, mapperOptions, filter, baseDataSource])
         // 还原页数查询
         const init = useCallback(otherData => getTableData({
             current: initCurrent,
@@ -128,14 +132,13 @@ const FAntdTable = forwardRef(
         );
         // 单选/多选
         const rowSelection = useMemo(() => {
-            const baseRowSelection = args?.rowSelection ?? {}
             if (checkboxState) return {
                 type: 'checkbox',
                 selectedRowKeys: checkboxState[0],
                 ...baseRowSelection,
                 onChange (...changeArgs) {
                     checkboxState[1](changeArgs[0])
-                    args?.rowSelection?.onChange(...changeArgs)
+                    baseRowSelection?.onChange?.(...changeArgs)
                 }
             }
             if (radioState) return {
@@ -144,36 +147,37 @@ const FAntdTable = forwardRef(
                 ...baseRowSelection,
                 onChange (...changeArgs) {
                     radioState[1](changeArgs[0][0])
-                    args?.rowSelection?.onChange(...changeArgs)
+                    baseRowSelection?.onChange?.(...changeArgs)
                 }
             }
-        }, [checkboxState, radioState, args?.rowSelection]);
+            return baseRowSelection
+        }, [checkboxState, radioState, baseRowSelection]);
         useEffect(() => {
-            if (autoInit && !args?.dataSource) getTableData()
+            if (autoInit && !baseDataSource) getTableData()
         }, []);
         useEffect(() => {
-            if (args?.dataSource) setTableData(args.dataSource)
-        }, [args?.dataSource]);
+            if (baseDataSource) setTableData(baseDataSource)
+        }, [baseDataSource]);
         return <Table
             ref={tableRef}
             loading={loading}
-            dataSource={tableData}
+            dataSource={baseDataSource ?? tableData}
             {...args}
             rowSelection={rowSelection}
-            columns={args.columns?.map(r => (r.key = r.key ?? r.dataIndex, r))}
-            pagination={args?.pagination === false ? false : {
+            columns={baseColumns?.map(r => (r.key = r.key ?? r.dataIndex, r))}
+            pagination={basePagination === false ? false : {
                 showSizeChanger: true,
                 current: configCurrent,
                 pageSize: configPageSize,
                 total,
                 pageSizeOptions: [5, 10, 20, 50],
-                ...args?.pagination,
+                ...basePagination,
                 onChange (current, pageSize) {
                     getTableData({
                         current,
                         pageSize,
                     })
-                    args?.pagination?.onChange(current, pageSize)
+                    basePagination?.onChange(current, pageSize)
                     // 清空选中
                     if (radioState) radioState[1](undefined)
                     if (checkboxState) checkboxState[1]([])
