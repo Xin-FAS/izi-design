@@ -23,7 +23,7 @@ const FAntdTable = forwardRef(
             rowSelection: baseRowSelection = {},
             pagination: basePagination = {},
             columns: baseColumns = [],
-            dataSource: baseDataSource = [],
+            dataSource: baseDataSource,
             ...args
         },
         ref,
