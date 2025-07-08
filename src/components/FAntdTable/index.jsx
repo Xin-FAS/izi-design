@@ -20,9 +20,9 @@ const FAntdTable = forwardRef(
             initPageSize = 10,
             initCurrent = 1,
             autoInit = true,
-            rowSelection: baseRowSelection = {},
             pagination: basePagination = {},
             columns: baseColumns = [],
+            rowSelection: baseRowSelection,
             dataSource: baseDataSource,
             ...args
         },
@@ -132,25 +132,26 @@ const FAntdTable = forwardRef(
         );
         // 单选/多选
         const rowSelection = useMemo(() => {
+            const useRowSelection = baseRowSelection ?? {}
             if (checkboxState) return {
                 type: 'checkbox',
                 selectedRowKeys: checkboxState[0],
-                ...baseRowSelection,
+                ...useRowSelection,
                 onChange (...changeArgs) {
                     checkboxState[1](changeArgs[0])
-                    baseRowSelection?.onChange?.(...changeArgs)
+                    useRowSelection?.onChange?.(...changeArgs)
                 }
             }
             if (radioState) return {
                 type: 'radio',
                 selectedRowKeys: [radioState[0]],
-                ...baseRowSelection,
+                ...useRowSelection,
                 onChange (...changeArgs) {
                     radioState[1](changeArgs[0][0])
-                    baseRowSelection?.onChange?.(...changeArgs)
+                    useRowSelection?.onChange?.(...changeArgs)
                 }
             }
-            return baseRowSelection
+            return useRowSelection
         }, [checkboxState, radioState, baseRowSelection]);
         useEffect(() => {
             if (autoInit && !baseDataSource) getTableData()
