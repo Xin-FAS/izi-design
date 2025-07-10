@@ -92,50 +92,27 @@ FAntdInput.Number = forwardRef(({
     strict, // 严格模式（限制步长为1的正整数）
     ...args
 }, ref) => {
-    const getStrictValue = value => strict ? ~~value: value
-    const modeArgs = useMemo(() => {
-        let args = {}
-        // 价格格式
-        if (mode === 'price') {
-            args = {
-                formatter: value => `￥${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-                parser: value => getStrictValue(value?.replace(/\￥\s?|(,*)/g, ''))
-            }
-        }
-        // 百分比格式
-        if (mode === 'percent') {
-            args = {
-                formatter: value => `${value}%`,
-                parser: value => getStrictValue(value?.replace('%', ''))
-            }
-        }
-        return args
-    }, [])
-
-    const useMax = useMemo(() => {
-        if (mode === 'percent' && strict) return 100
-        return undefined
-    }, [])
-
     const useOnChange = value => {
         state?.[1](value);
         onChange && onChange(value);
     }
-
-    return <InputNumber
-        placeholder={'请输入'}
-        ref={ref}
-        value={state?.[0]}
-        keyboard
-        changeOnWheel
-        min={strict ? 0: undefined}
-        max={useMax}
-        step={strict ? 1: 0.1}
-        precision={strict ? 0 : undefined}
-        {...modeArgs}
-        {...args}
-        onChange={useOnChange}
-    />;
+    return (
+        <InputNumber
+            value={state?.[0]}
+            onChange={useOnChange}
+            placeholder={'请输入'}
+            ref={ref}
+            keyboard
+            changeOnWheel
+            min={strict ? 0: undefined}
+            max={mode === 'percent' && strict ? 100: undefined}
+            step={strict ? 1: 0.1}
+            precision={strict ? 0 : undefined}
+            suffix={mode === 'percent' ? '%': undefined}
+            prefix={mode === 'price' ? '￥': undefined}
+            {...args}
+        />
+    );
 });
 
 export default FAntdInput;
