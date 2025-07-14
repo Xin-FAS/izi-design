@@ -177,7 +177,7 @@ const FAntdTable = forwardRef(
                         current,
                         pageSize,
                     })
-                    basePagination?.onChange(current, pageSize)
+                    basePagination.onChange?.(current, pageSize)
                     // 清空选中
                     if (radioState) radioState[1](undefined)
                     if (checkboxState) checkboxState[1]([])
