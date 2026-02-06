@@ -29,7 +29,7 @@ yarn add izid
 ```
 
 ## 🔗 Links
-* [Home page](https://xin-fas.github.io/izi-design-doc/)
+* [Home page](https://xin-fas.github.io/izi-design/)
 * [Xin'Blog](https://xin-fas.github.io)
 * [Kinoteika'Blog](https://blog.kinoteika.com)
 * [Ant Design Web3](https://web3.ant.design/)

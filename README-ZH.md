@@ -19,7 +19,7 @@ pnpm add izid
 - [ ] 复杂表格组件
 
 ## 🔗 链接
-* [Home page](https://xin-fas.github.io/izi-design-doc/)
+* [Home page](https://xin-fas.github.io/izi-design/)
 * [Xin'Blog](https://xin-fas.github.io)
 * [Kinoteika'Blog](https://blog.kinoteika.com)
 * [Ant Design Web3](https://web3.ant.design/)
