@@ -55,11 +55,11 @@ const getItem = key => {
                 salt
             },
             value: encryptValue
-        } = decryptAES(encryptContent, key)
+        } = decryptAES(encryptContent, _key)
         // 过期清空
-        if (delay !== -1 && Date.now() > delay) return removeItem(key)
+        if (delay !== -1 && Date.now() > delay) return removeItem(_key)
         // 获取密钥
-        const encryptVi = encryptPBKDF2(key, salt)
+        const encryptVi = encryptPBKDF2(_key, salt)
         // 解密
         return decryptAES(encryptValue, encryptVi)
     }
