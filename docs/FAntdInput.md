@@ -37,6 +37,8 @@ export default () => {
 
 使用F12打开控制台查看输出
 
+> 需要引入 `lodash-es` 使用，`npm install lodash-es`
+
 ```jsx
 import { FAntdInput } from 'izid';
 import { useState } from 'react';
@@ -231,39 +233,36 @@ export default () => {
 ## API
 
 ### FAntdInput
+
 配置项继承[Antd Input](https://ant-design.antgroup.com/components/input-cn#api)
 
-#### Props
-
-| 属性名   | 类型     | 是否必填  | 说明                      | 默认值 |
-|:------|:-------|:------|:------------------------|:----|
-| state | string | false | useState创建的state，用于双向绑定 |     |
+| 属性名   | 类型                 | 是否必填  | 说明                        | 默认值 |
+|:------|:-------------------|:------|:--------------------------|:----|
+| state | [string, function] | false | `useState`创建的state，用于双向绑定 |     |
 
 ### FAntdInput.Search
 
-组件内部依据`lodash-es`依赖，请先使用`npm install lodash-es`下载所需依赖 ，配置项继承[Antd Input.Search](https://ant-design.antgroup.com/components/input-cn#inputsearch)
+配置项继承[Antd Input.Search](https://ant-design.antgroup.com/components/input-cn#inputsearch)
 
-#### Props
+> 需要引入 `lodash-es` 使用，`npm install lodash-es`
 
-| 属性名              | 类型       | 是否必填  | 说明                      | 默认值   |
-|:-----------------|:---------|:------|:------------------------|:------|
-| state            | string   | false | useState创建的state，用于双向绑定 |       |
-| autoSearch       | function | false | 输入时是否自动使用防抖搜索           |       |
-| debounceDuration | number   | false | 开启autoSearch后，防抖时间      | 500   |
-| throttleDuration | number   | false | 触发搜索事件时节流时间             | 0     |
-| throttleTrailing | boolean  | false | 节流搜索时间结束后是否再次触发搜索       | false |
+| 属性名              | 类型                 | 是否必填  | 说明                        | 默认值   |
+|:-----------------|:-------------------|:------|:--------------------------|:------|
+| state            | [string, function] | false | `useState`创建的state，用于双向绑定 |       |
+| autoSearch       | function           | false | 输入时是否自动使用防抖搜索             |       |
+| debounceDuration | number             | false | 开启autoSearch后，防抖时间        | 500   |
+| throttleDuration | number             | false | 触发搜索事件时节流时间               | 0     |
+| throttleTrailing | boolean            | false | 节流搜索时间结束后是否再次触发搜索         | false |
 
 ### FAntdInput.Number
 
 配置项继承[Antd InputNumber](https://ant-design.antgroup.com/components/input-number-cn#api)
 
-#### Props
-
-| 属性名    | 类型                | 是否必填  | 说明                                 | 默认值   |
-|:-------|:------------------|:------|:-----------------------------------|:------|
-| state  | string            | false | useState创建的state，用于双向绑定            |       |
-| mode   | `price` `percent` | false | `price`价格模式、`percent`百分比模式，出现固定的格式 |       |
-| strict | boolean           | false | 严格限制，限制为正整数、步长为1、百分比模式下限制最大值100    | false |
+| 属性名    | 类型                 | 是否必填  | 说明                                 | 默认值   |
+|:-------|:-------------------|:------|:-----------------------------------|:------|
+| state  | [string, function] | false | `useState`创建的state，用于双向绑定          |       |
+| mode   | `price` `percent`  | false | `price`价格模式、`percent`百分比模式，出现固定的格式 |       |
+| strict | boolean            | false | 严格限制，限制为正整数、步长为1、百分比模式下限制最大值100    | false |
 
 ### 其他FAntdInput.XXX
 

@@ -124,8 +124,6 @@ export default () => {
 
 其他配置项继承[FAntdTable](/components/f-antd-table#api)
 
-### Props
-
 | 属性名           | 类型                                      | 是否必填  | 说明        | 默认值 |
 |:--------------|:----------------------------------------|:------|:----------|:----|
 | headerRender  | {label: string, render: row => React}[] | false | 头部数据的显示区域 |     |

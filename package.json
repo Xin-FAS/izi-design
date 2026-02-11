@@ -39,14 +39,15 @@
     "react-dom": ">=16.9.0"
   },
   "devDependencies": {
+    "crypto-js": "^4.2.0",
     "dumi": "^2.4.13",
     "dumi-theme-antd-style": "^0.31.1",
-    "zxcvbn": ">=4.4.0",
     "lodash-es": "^4.17.23",
     "microbundle": "^0.15.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "crypto-js": "^4.2.0"
+    "react-draggable": "^4.5.0",
+    "zxcvbn": ">=4.4.0"
   },
   "repository": {
     "type": "git",
