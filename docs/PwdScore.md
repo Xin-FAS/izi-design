@@ -101,10 +101,11 @@ export default () => {
     const [log, setLog] = useState({})
     const [password, setPassword] = useState('')
 
-    const pwdChange = () => {
-        if (!password) setPasswordScore(undefined)
+    const pwdChange = inputEvent => {
+        const value = inputEvent.target.value
+        if (!value) setPasswordScore(undefined)
         // 使用zxcvbn计算密码强度，范围0-4，如果有自定义强度的话需要手动修改
-        else setPasswordScore(zxcvbn(password).score)
+        else setPasswordScore(zxcvbn(value).score)
     }
 
     return <>
@@ -143,6 +144,8 @@ export default () => {
 ```
 
 ## API
+
+> 注意：在`onChange`中，想要获取最新值，需要从`event`中获取，不能直接获取`useState`的参数
 
 | 属性名          | 类型      | 是否必填  | 说明               | 默认值                                                                                                                                                                                                                      |
 |:-------------|:--------|:------|:-----------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
